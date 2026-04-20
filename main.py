@@ -67,3 +67,17 @@ def postNew(writer: str = Form(...), title: str = Form(...), content: str = Form
 
     # 특정 경로로 요청을 다시 하도록 리다일렉트 응답을 준다. 
     return RedirectResponse("/post", status_code=302)
+
+# 게시글 삭제 요청 처리
+@app.post("/post/delete")
+def postDelete(num: int = Form(...), db: Session = Depends(get_db)):
+    # DB 에서 특정 번호의 글을 삭제하기 위한 sql 문 준비
+    query = text("""
+        DELETE FROM post
+        WHERE num = :num
+    """)
+    db.execute(query, {"num": num})
+    db.commit()
+
+    # 삭제 후 목록 페이지로 리다이렉트
+    return RedirectResponse("/post", status_code=302)
