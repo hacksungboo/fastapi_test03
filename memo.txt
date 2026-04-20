@@ -7,3 +7,11 @@ python -m venv venv
 # 필요한 페키지 설치
 pip install fastapi uvicorn sqlalchemy psycopg2-binary python-jose jinja2 python-multipart
 
+# app 시작하기
+uvicorn main:app --reload
+
+# git 변경사항 취소
+git restore .
+
+# untracked file 도 제거하기
+git clean -fd
