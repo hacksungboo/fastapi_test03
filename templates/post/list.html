@@ -29,10 +29,7 @@
                     <td>{{ post.content }}</td>
                     <td>{{ post.created_at }}</td>
                     <td>
-                        <form action="/post/delete" method="post">
-                            <input type="hidden" name="num" value="{{ post.num }}">
-                            <button type="submit">삭제</button>
-                        </form>
+                        <a href="/post/delete/{{ post.num }}">삭제</a>
                     </td>
                 </tr>
                 {% endfor %}
