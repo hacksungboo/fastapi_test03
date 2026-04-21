@@ -83,3 +83,21 @@ def delete(num:int,db:Session=Depends(get_db)): # 경로 변수의 이름과 함
     db.commit()
     # 클라이언트가 /post로 다시 요청하라고 강요하기
     return RedirectResponse("/post",status_code=302)
+
+@app.get("/post/edit/{num}")
+def edit(num:int,request:Request, db:Session=Depends(get_db)):
+    # 수정할 글정보를 읽어오기 위한 query 작성
+    query=text("""
+        SELECT num, writer,content, created_at  
+        FROM post
+        WHERE num=:num
+    """)
+    # PK를 이용해서 select 하는 것이기 때문에 row는 1개다. 따라서, .fetchone() 함수를 호출한다.
+    row=db.execute(query,{"num":num}).fetchone()
+    return templates.TemplateResponse(
+        request=request,
+        name="post/edit.html",
+        context={
+            "post":row
+        }
+    )
